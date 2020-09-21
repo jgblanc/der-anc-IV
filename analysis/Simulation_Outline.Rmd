@@ -14,7 +14,7 @@ library(ggplot2)
 ## Causal Diagram 
 
 ```{r, out.height="100%", out.width="100%", echo=FALSE}
-knitr::include_graphics("../assets/causal_diagram.jpeg", error = FALSE)
+knitr::include_graphics("../docs/assets/causal_diagram.jpeg", error = FALSE)
 ```
 
 ## Simulations 1 
@@ -88,7 +88,7 @@ sum(diff$V1 < 0)/nrow(diff)
 
 ```{r}
 G <- fread("../data/simple_simulations/G_small.txt")
-decomp <- svd(G)
+decomp <- readRDS("~/Desktop/demcomp.rds")
 
 u <- decomp$u
 v <- decomp$v
