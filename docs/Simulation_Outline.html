@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtreeb3ac3f789e4a40da9aebfe58cb116687c4accbf0targetblankb3ac3f7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/der-anc-IV/tree/b3ac3f789e4a40da9aebfe58cb116687c4accbf0" target="_blank">b3ac3f7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree35bfe66ab55af250f9d9db73b4ed53f9b049369btargetblank35bfe66a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/der-anc-IV/tree/35bfe66ab55af250f9d9db73b4ed53f9b049369b" target="_blank">35bfe66</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtreeb3ac3f789e4a40da9aebfe58cb116687c4accbf0targetblankb3ac3f7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree35bfe66ab55af250f9d9db73b4ed53f9b049369btargetblank35bfe66a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jgblanc/der-anc-IV/tree/b3ac3f789e4a40da9aebfe58cb116687c4accbf0" target="_blank">b3ac3f7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jgblanc/der-anc-IV/tree/35bfe66ab55af250f9d9db73b4ed53f9b049369b" target="_blank">35bfe66</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -567,6 +567,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jgblanc/der-anc-IV/blob/35bfe66ab55af250f9d9db73b4ed53f9b049369b/analysis/Simulation_Outline.Rmd" target="_blank">35bfe66</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-21
+</td>
+<td>
+Publish the initial files for myproject
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jgblanc/der-anc-IV/1b335fb122ab6cf55103f15d0dea10ce56291e47/docs/Simulation_Outline.html" target="_blank">1b335fb</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -627,7 +661,7 @@ Publish the initial files for myproject
 </div>
 <div id="causal-diagram" class="section level2">
 <h2>Causal Diagram</h2>
-<p><img src="../assets/causal_diagram.jpeg" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+<p><img src="../docs/assets/causal_diagram.jpeg" width="100%" height="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="simulations-1" class="section level2">
 <h2>Simulations 1</h2>
@@ -770,7 +804,7 @@ mean(diff$V1)</code></pre>
 <pre class="r"><code>sum(diff$V1 &lt; 0)/nrow(diff)</code></pre>
 <pre><code>[1] 0.4550864</code></pre>
 <pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_small.txt&quot;)
-decomp &lt;- svd(G)
+decomp &lt;- readRDS(&quot;~/Desktop/demcomp.rds&quot;)
 
 u &lt;- decomp$u
 v &lt;- decomp$v
