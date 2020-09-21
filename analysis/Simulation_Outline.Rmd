@@ -1,0 +1,117 @@
+---
+title: "simulation_outline"
+author: "Jennifer Blanc"
+date: "9/18/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(data.table)
+library(ggplot2)
+```
+
+## Causal Diagram 
+
+```{r, out.height="100%", out.width="100%", echo=FALSE}
+knitr::include_graphics("assets/causal_diagram.jpeg", error = FALSE)
+```
+
+## Simulations 1 
+
+**Simulate Data** 
+Randomly choose derived status of effect allele
+```{r}
+L <- 100
+D <- rbinom(L, 1, 0.5)
+```
+
+Set $\gamma_{s|D} = 0.5$ and generate frequency difference w/ error    
+```{r}
+gamma_s_D <- 0.5
+s <- gamma_s_D * D + rnorm(L, 0, 0.1)
+plot(s,D)
+```
+
+Set $\gamma_{B|S} = 3$ and generate estimated effect sizes w/ error
+```{r}
+gamma_B_s <- 3
+Bhat <- gamma_B_s * s + rnorm(L, 0, 0.1)
+plot(s, Bhat)
+```
+
+**Fit model**  
+
+Regress $\vec{s} \sim \vec{D}$ to estimate $\hat{\gamma_{s|D}}$
+```{r}
+stg1 <- lm(s ~ D)
+stg1
+hat_gamma_s_D <- stg1$coefficients[2]
+```
+
+Regress $\hat{\vec{\beta}} \sim \hat{\gamma}_{s|D}\vec{D}$ to estimate $\hat{\gamma}_{B|s}$
+```{r}
+s_hat <- as.numeric(hat_gamma_s_D)*D
+stg2 <- lm(Bhat ~ s_hat)
+stg2
+```
+
+Our estimate of $\gamma_{B|S}$ is: 
+```{r}
+stg2$coefficients[2]
+```
+
+## Simulations 2 - using real genotype matrices
+
+**Generate data**  
+
+First I simulated 2000 individuals (500 YRI, 500 CEU) and output the freq difference between the two populations (YRI - CEU) for all SNPs that are private to one or the other population 
+
+Read in freq diff
+```{r}
+diff <- fread("../data/simple_simulations/freq_diff.txt")
+mean(diff$V1)
+
+nrow(diff)
+sum(diff$V1 > 0)/nrow(diff)
+sum(diff$V1 < 0)/nrow(diff)
+```
+
+```{r}
+diff <- fread("../data/simple_simulations/freq_diff_all.txt")
+mean(diff$V1)
+
+nrow(diff)
+sum(diff$V1 > 0)/nrow(diff)
+sum(diff$V1 < 0)/nrow(diff)
+```
+
+```{r}
+G <- fread("../data/simple_simulations/G_small.txt")
+decomp <- svd(G)
+
+u <- decomp$u
+v <- decomp$v
+
+labels <- as.factor(c(rep("YRI",1000), rep("CEU",1000)))
+qplot(v[,1], v[,2], col = labels)
+```
+
+```{r}
+dim(u)
+load_mean <- colMeans(u)
+
+plot(load_mean[1:20], seq(1,20))
+```
+
+```{r}
+G_YRI <- G[,1:1000]
+G_CEU <- G[,1001:2000]
+
+sums <- rowSums(G_YRI)
+length(sums[sums != 0])
+
+sums <- rowSums(G_CEU)
+length(sums[sums != 0])
+```
+

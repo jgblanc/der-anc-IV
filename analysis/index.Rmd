@@ -9,3 +9,5 @@ editor_options:
 ---
 
 Welcome to my research website.
+
+Outline [link](Simulation_Outline.html)
