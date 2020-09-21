@@ -14,7 +14,7 @@ library(ggplot2)
 ## Causal Diagram 
 
 ```{r, out.height="100%", out.width="100%", echo=FALSE}
-knitr::include_graphics("assets/causal_diagram.jpeg", error = FALSE)
+knitr::include_graphics("../assets/causal_diagram.jpeg", error = FALSE)
 ```
 
 ## Simulations 1 
