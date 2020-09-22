@@ -412,7 +412,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-21
+<strong>Last updated:</strong> 2020-09-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree19c8a8bcfdc5edac48e3092d8405ab9e3a16b0bftargetblank19c8a8ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/der-anc-IV/tree/19c8a8bcfdc5edac48e3092d8405ab9e3a16b0bf" target="_blank">19c8a8b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree82cfe4a130d1d25a89ba18b4ac5ab2e662025af2targetblank82cfe4aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/der-anc-IV/tree/82cfe4a130d1d25a89ba18b4ac5ab2e662025af2" target="_blank">82cfe4a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree19c8a8bcfdc5edac48e3092d8405ab9e3a16b0bftargetblank19c8a8ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree82cfe4a130d1d25a89ba18b4ac5ab2e662025af2targetblank82cfe4aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jgblanc/der-anc-IV/tree/19c8a8bcfdc5edac48e3092d8405ab9e3a16b0bf" target="_blank">19c8a8b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jgblanc/der-anc-IV/tree/82cfe4a130d1d25a89ba18b4ac5ab2e662025af2" target="_blank">82cfe4a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -567,6 +567,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jgblanc/der-anc-IV/blob/82cfe4a130d1d25a89ba18b4ac5ab2e662025af2/analysis/Simulation_Outline.Rmd" target="_blank">82cfe4a</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-22
+</td>
+<td>
+exploring snp loadings
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jgblanc/der-anc-IV/2145bf26d0e3545f68b662d773b29c3dca6635ff/docs/Simulation_Outline.html" target="_blank">2145bf2</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -851,36 +885,19 @@ Coefficients:
 <pre><code>  s_hat 
 3.04865 </code></pre>
 </div>
-<div id="simulations-2---using-real-genotype-matrices" class="section level2">
-<h2>Simulations 2 - using real genotype matrices</h2>
-<p><strong>Generate data</strong></p>
-<p>First I simulated 2000 individuals (500 YRI, 500 CEU) and output the freq difference between the two populations (YRI - CEU) for all SNPs that are private to one or the other population</p>
-<p>Read in freq diff</p>
-<pre class="r"><code>diff &lt;- fread(&quot;../data/simple_simulations/freq_diff.txt&quot;)
-mean(diff$V1)</code></pre>
-<pre><code>[1] 0.006740734</code></pre>
-<pre class="r"><code>nrow(diff)</code></pre>
-<pre><code>[1] 329299</code></pre>
-<pre class="r"><code>sum(diff$V1 &gt; 0)/nrow(diff)</code></pre>
-<pre><code>[1] 0.5529807</code></pre>
-<pre class="r"><code>sum(diff$V1 &lt; 0)/nrow(diff)</code></pre>
-<pre><code>[1] 0.4470193</code></pre>
-<pre class="r"><code>diff &lt;- fread(&quot;../data/simple_simulations/freq_diff_all.txt&quot;)
-mean(diff$V1)</code></pre>
-<pre><code>[1] -2.657881e-05</code></pre>
-<pre class="r"><code>nrow(diff)</code></pre>
-<pre><code>[1] 426352</code></pre>
-<pre class="r"><code>sum(diff$V1 &gt; 0)/nrow(diff)</code></pre>
-<pre><code>[1] 0.5448925</code></pre>
-<pre class="r"><code>sum(diff$V1 &lt; 0)/nrow(diff)</code></pre>
-<pre><code>[1] 0.4550864</code></pre>
-<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_small.txt&quot;)
-decomp &lt;- readRDS(&quot;~/Desktop/demcomp.rds&quot;)
-
+<div id="exploring-snp-loadings" class="section level2">
+<h2>Exploring SNP loadings</h2>
+<p>First I simulated 2000 individuals (1000 YRI, 1000 CEU) and output the Genotype matrix and derived allele frequency of varriants in each population.</p>
+<p>Read in genotype matrix</p>
+<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_small_1.txt&quot;)
+dim(G)</code></pre>
+<pre><code>[1] 4204 2000</code></pre>
+<p>Singular value decompostion of the genotype matrix</p>
+<pre class="r"><code>decomp &lt;- svd(G, nu = 20)
 u &lt;- decomp$u
-v &lt;- decomp$v
-
-labels &lt;- as.factor(c(rep(&quot;YRI&quot;,1000), rep(&quot;CEU&quot;,1000)))
+v &lt;- decomp$v</code></pre>
+<p>Make PCA plot</p>
+<pre class="r"><code>labels &lt;- as.factor(c(rep(&quot;YRI&quot;,1000), rep(&quot;CEU&quot;,1000)))
 qplot(v[,1], v[,2], col = labels)</code></pre>
 <p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -920,58 +937,22 @@ jgblanc
 </table>
 </div>
 </div>
-<pre class="r"><code>dim(u)</code></pre>
-<pre><code>[1] 4253 2000</code></pre>
-<pre class="r"><code>load_mean &lt;- colMeans(u)
-
-plot(load_mean[1:20], seq(1,20))</code></pre>
-<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jgblanc/der-anc-IV/blob/6ededdc86c9500fe170cdb6b964a8c5de793219e/docs/figure/Simulation_Outline.Rmd/unnamed-chunk-11-1.png" target="_blank">6ededdc</a>
-</td>
-<td>
-jgblanc
-</td>
-<td>
-2020-09-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p>Double check that we have the correct labels by checking the number of segregating sites in each population - YRI should have more segregating sites</p>
 <pre class="r"><code>G_YRI &lt;- G[,1:1000]
 G_CEU &lt;- G[,1001:2000]
 
 sums &lt;- rowSums(G_YRI)
 length(sums[sums != 0])</code></pre>
-<pre><code>[1] 2841</code></pre>
+<pre><code>[1] 2768</code></pre>
 <pre class="r"><code>sums &lt;- rowSums(G_CEU)
 length(sums[sums != 0])</code></pre>
-<pre><code>[1] 2263</code></pre>
+<pre><code>[1] 2204</code></pre>
+<p>Calculate the average SNP loading (across all variants) for the top 20 PCs</p>
+<pre class="r"><code>dim(u)</code></pre>
+<pre><code>[1] 4204   20</code></pre>
+<pre class="r"><code>load_mean &lt;- colMeans(u)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = &quot;red&quot;) + xlab(&quot;Average Loading&quot;) + ylab(&quot;PC&quot;)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
