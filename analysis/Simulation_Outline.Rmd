@@ -61,49 +61,30 @@ Our estimate of $\gamma_{B|S}$ is:
 stg2$coefficients[2]
 ```
 
-## Simulations 2 - using real genotype matrices
+## Exploring SNP loadings 
 
-**Generate data**  
+First I simulated 2000 individuals (1000 YRI, 1000 CEU) and output the Genotype matrix and derived allele frequency of varriants in each population.   
 
-First I simulated 2000 individuals (500 YRI, 500 CEU) and output the freq difference between the two populations (YRI - CEU) for all SNPs that are private to one or the other population 
-
-Read in freq diff
+Read in genotype matrix 
 ```{r}
-diff <- fread("../data/simple_simulations/freq_diff.txt")
-mean(diff$V1)
-
-nrow(diff)
-sum(diff$V1 > 0)/nrow(diff)
-sum(diff$V1 < 0)/nrow(diff)
+G <- fread("../data/simple_simulations/G_small_1.txt")
+dim(G)
 ```
 
+Singular value decompostion of the genotype matrix    
 ```{r}
-diff <- fread("../data/simple_simulations/freq_diff_all.txt")
-mean(diff$V1)
-
-nrow(diff)
-sum(diff$V1 > 0)/nrow(diff)
-sum(diff$V1 < 0)/nrow(diff)
-```
-
-```{r}
-G <- fread("../data/simple_simulations/G_small.txt")
-decomp <- readRDS("~/Desktop/demcomp.rds")
-
+decomp <- svd(G, nu = 20)
 u <- decomp$u
 v <- decomp$v
+```
 
+Make PCA plot  
+```{r}
 labels <- as.factor(c(rep("YRI",1000), rep("CEU",1000)))
 qplot(v[,1], v[,2], col = labels)
 ```
 
-```{r}
-dim(u)
-load_mean <- colMeans(u)
-
-plot(load_mean[1:20], seq(1,20))
-```
-
+Double check that we have the correct labels by checking the number of segregating sites in each population - YRI should have more segregating sites   
 ```{r}
 G_YRI <- G[,1:1000]
 G_CEU <- G[,1001:2000]
@@ -114,4 +95,13 @@ length(sums[sums != 0])
 sums <- rowSums(G_CEU)
 length(sums[sums != 0])
 ```
+
+Calculate the average SNP loading (across all variants) for the top 20 PCs  
+```{r}
+dim(u)
+load_mean <- colMeans(u)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xlab("Average Loading") + ylab("PC")
+```
+
+
 
