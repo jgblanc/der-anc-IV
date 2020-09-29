@@ -412,7 +412,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-22
+<strong>Last updated:</strong> 2020-09-29
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree82cfe4a130d1d25a89ba18b4ac5ab2e662025af2targetblank82cfe4aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/der-anc-IV/tree/82cfe4a130d1d25a89ba18b4ac5ab2e662025af2" target="_blank">82cfe4a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtreecef0f109d52155d9d187dea1290889547c03c264targetblankcef0f10a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/der-anc-IV/tree/cef0f109d52155d9d187dea1290889547c03c264" target="_blank">cef0f10</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtree82cfe4a130d1d25a89ba18b4ac5ab2e662025af2targetblank82cfe4aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancderancIVtreecef0f109d52155d9d187dea1290889547c03c264targetblankcef0f10a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jgblanc/der-anc-IV/tree/82cfe4a130d1d25a89ba18b4ac5ab2e662025af2" target="_blank">82cfe4a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jgblanc/der-anc-IV/tree/cef0f109d52155d9d187dea1290889547c03c264" target="_blank">cef0f10</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -521,6 +521,7 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rproj.user/
+    Ignored:    data/.DS_Store
 
 Untracked files:
     Untracked:  _workflowr.yml~
@@ -567,6 +568,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jgblanc/der-anc-IV/blob/cef0f109d52155d9d187dea1290889547c03c264/analysis/Simulation_Outline.Rmd" target="_blank">cef0f10</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-29
+</td>
+<td>
+IDK!!
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jgblanc/der-anc-IV/872957103eabc00d9c0365425152c9715260e1f1/docs/Simulation_Outline.html" target="_blank">8729571</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -887,25 +922,29 @@ Coefficients:
 </div>
 <div id="exploring-snp-loadings" class="section level2">
 <h2>Exploring SNP loadings</h2>
-<p>First I simulated 2000 individuals (1000 YRI, 1000 CEU) and output the Genotype matrix and derived allele frequency of varriants in each population.</p>
-<p>Read in genotype matrix</p>
-<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_small_1.txt&quot;)
+<p><strong>Single Population</strong></p>
+<p>Simulate single population and output genotype matrix</p>
+<pre class="r"><code>ts = msprime.simulate(sample_size=1000,Ne=5000,length=1e6, recombination_rate=1e-8,
+                         mutation_rate=1e-8, random_seed = 12)
+G = ts.genotype_matrix()</code></pre>
+<p>Read in and standardize genotype matrix</p>
+<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_onepop.txt&quot;)
+G &lt;- scale(t(G))
 dim(G)</code></pre>
-<pre><code>[1] 4204 2000</code></pre>
+<pre><code>[1] 1000 1467</code></pre>
 <p>Singular value decompostion of the genotype matrix</p>
-<pre class="r"><code>decomp &lt;- svd(G, nu = 20)
+<pre class="r"><code>decomp &lt;- svd(G)
 u &lt;- decomp$u
 v &lt;- decomp$v</code></pre>
 <p>Make PCA plot</p>
-<pre class="r"><code>labels &lt;- as.factor(c(rep(&quot;YRI&quot;,1000), rep(&quot;CEU&quot;,1000)))
-qplot(v[,1], v[,2], col = labels)</code></pre>
-<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>qplot(u[,1], u[,2])</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
-Past versions of unnamed-chunk-10-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div id="fig-unnamed-chunk-11-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -924,7 +963,18 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jgblanc/der-anc-IV/blob/6ededdc86c9500fe170cdb6b964a8c5de793219e/docs/figure/Simulation_Outline.Rmd/unnamed-chunk-10-1.png" target="_blank">6ededdc</a>
+<a href="https://github.com/jgblanc/der-anc-IV/blob/872957103eabc00d9c0365425152c9715260e1f1/docs/figure/Simulation_Outline.Rmd/unnamed-chunk-11-1.png" target="_blank">8729571</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jgblanc/der-anc-IV/blob/6ededdc86c9500fe170cdb6b964a8c5de793219e/docs/figure/Simulation_Outline.Rmd/unnamed-chunk-11-1.png" target="_blank">6ededdc</a>
 </td>
 <td>
 jgblanc
@@ -937,22 +987,128 @@ jgblanc
 </table>
 </div>
 </div>
-<p>Double check that we have the correct labels by checking the number of segregating sites in each population - YRI should have more segregating sites</p>
-<pre class="r"><code>G_YRI &lt;- G[,1:1000]
-G_CEU &lt;- G[,1001:2000]
-
-sums &lt;- rowSums(G_YRI)
-length(sums[sums != 0])</code></pre>
-<pre><code>[1] 2768</code></pre>
-<pre class="r"><code>sums &lt;- rowSums(G_CEU)
-length(sums[sums != 0])</code></pre>
-<pre><code>[1] 2204</code></pre>
-<p>Calculate the average SNP loading (across all variants) for the top 20 PCs</p>
-<pre class="r"><code>dim(u)</code></pre>
-<pre><code>[1] 4204   20</code></pre>
-<pre class="r"><code>load_mean &lt;- colMeans(u)
+<p>Plot loading means</p>
+<pre class="r"><code>load_mean &lt;- colMeans(v)
 qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = &quot;red&quot;) + xlab(&quot;Average Loading&quot;) + ylab(&quot;PC&quot;)</code></pre>
 <p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jgblanc/der-anc-IV/blob/872957103eabc00d9c0365425152c9715260e1f1/docs/figure/Simulation_Outline.Rmd/unnamed-chunk-12-1.png" target="_blank">8729571</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Population Split - same size</strong></p>
+<p>Simulate 2 population with sizes</p>
+<pre class="r"><code>N_A = 2000
+N_B = 2000</code></pre>
+<p>Read in and standardize genotype matrix</p>
+<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_split_samesize.txt&quot;)
+G &lt;- scale(t(G))
+dim(G)</code></pre>
+<pre><code>[1] 1000 1076</code></pre>
+<p>Singular value decompostion of the genotype matrix</p>
+<pre class="r"><code>decomp &lt;- svd(G)
+u &lt;- decomp$u
+v &lt;- decomp$v</code></pre>
+<p>Make PCA plot</p>
+<pre class="r"><code>labels = c(rep(&quot;A&quot;, 500), rep(&quot;B&quot;, 500))
+qplot(u[,1], u[,2], col = labels)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Plot loading means</p>
+<pre class="r"><code>load_mean &lt;- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = &quot;red&quot;) + xlab(&quot;Average Loading&quot;) + ylab(&quot;PC&quot;)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Population Split - A &gt; B</strong></p>
+<p>Simulate 2 populations</p>
+<pre class="r"><code>N_A = 8000
+N_B = 2000</code></pre>
+<p>Read in and standardize genotype matrix</p>
+<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_split_Abig.txt&quot;)
+G &lt;- scale(t(G))
+dim(G)</code></pre>
+<pre><code>[1] 1000 2895</code></pre>
+<p>Singular value decompostion of the genotype matrix</p>
+<pre class="r"><code>decomp &lt;- svd(G)
+u &lt;- decomp$u
+v &lt;- decomp$v</code></pre>
+<p>Make PCA plot</p>
+<pre class="r"><code>labels = c(rep(&quot;A&quot;, 500), rep(&quot;B&quot;, 500))
+qplot(u[,1], u[,2], col = labels)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Plot loading means</p>
+<pre class="r"><code>load_mean &lt;- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = &quot;red&quot;) + xlab(&quot;Average Loading&quot;) + ylab(&quot;PC&quot;)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Population Split - B &gt; A</strong></p>
+<p>Simulate 2 populations</p>
+<pre class="r"><code>N_A = 2000
+N_B = 8000</code></pre>
+<p>Read in and standardize genotype matrix</p>
+<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_split_Bbig.txt&quot;)
+G &lt;- scale(t(G))
+dim(G)</code></pre>
+<pre><code>[1] 1000 2026</code></pre>
+<p>Singular value decompostion of the genotype matrix</p>
+<pre class="r"><code>decomp &lt;- svd(G)
+u &lt;- decomp$u
+v &lt;- decomp$v</code></pre>
+<p>Make PCA plot</p>
+<pre class="r"><code>labels = c(rep(&quot;A&quot;, 500), rep(&quot;B&quot;, 500))
+qplot(u[,1], u[,2], col = labels)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Plot loading means</p>
+<pre class="r"><code>load_mean &lt;- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = &quot;red&quot;) + xlab(&quot;Average Loading&quot;) + ylab(&quot;PC&quot;)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>OOA YRI and CEU</strong><br />
+Read in and standardize genotype matrix</p>
+<pre class="r"><code>G &lt;- fread(&quot;../data/simple_simulations/G_small_1.txt&quot;)
+G &lt;- scale(t(G))
+dim(G)</code></pre>
+<pre><code>[1] 2000 4204</code></pre>
+<p>Singular value decompostion of the genotype matrix</p>
+<pre class="r"><code>decomp &lt;- svd(G)
+u &lt;- decomp$u
+v &lt;- decomp$v</code></pre>
+<p>Make PCA plot</p>
+<pre class="r"><code>labels = c(rep(&quot;YRI&quot;, 1000), rep(&quot;CEU&quot;, 1000))
+qplot(u[,1], u[,2], col = labels)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Plot loading means</p>
+<pre class="r"><code>load_mean &lt;- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = &quot;red&quot;) + xlab(&quot;Average Loading&quot;) + ylab(&quot;PC&quot;)</code></pre>
+<p><img src="figure/Simulation_Outline.Rmd/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
