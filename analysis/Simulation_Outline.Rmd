@@ -63,45 +63,170 @@ stg2$coefficients[2]
 
 ## Exploring SNP loadings 
 
-First I simulated 2000 individuals (1000 YRI, 1000 CEU) and output the Genotype matrix and derived allele frequency of varriants in each population.   
+**Single Population**  
 
-Read in genotype matrix 
+Simulate single population and output genotype matrix 
+```{r, eval=FALSE}
+ts = msprime.simulate(sample_size=1000,Ne=5000,length=1e6, recombination_rate=1e-8,
+                         mutation_rate=1e-8, random_seed = 12)
+G = ts.genotype_matrix()
+```
+
+Read in and standardize genotype matrix 
 ```{r}
-G <- fread("../data/simple_simulations/G_small_1.txt")
+G <- fread("../data/simple_simulations/G_onepop.txt")
+G <- scale(t(G))
 dim(G)
 ```
 
 Singular value decompostion of the genotype matrix    
 ```{r}
-decomp <- svd(G, nu = 20)
+decomp <- svd(G)
 u <- decomp$u
 v <- decomp$v
 ```
 
-Make PCA plot  
+Make PCA plot 
 ```{r}
-labels <- as.factor(c(rep("YRI",1000), rep("CEU",1000)))
-qplot(v[,1], v[,2], col = labels)
+qplot(u[,1], u[,2])
 ```
 
-Double check that we have the correct labels by checking the number of segregating sites in each population - YRI should have more segregating sites   
+Plot loading means 
 ```{r}
-G_YRI <- G[,1:1000]
-G_CEU <- G[,1001:2000]
-
-sums <- rowSums(G_YRI)
-length(sums[sums != 0])
-
-sums <- rowSums(G_CEU)
-length(sums[sums != 0])
-```
-
-Calculate the average SNP loading (across all variants) for the top 20 PCs  
-```{r}
-dim(u)
-load_mean <- colMeans(u)
+load_mean <- colMeans(v)
 qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xlab("Average Loading") + ylab("PC")
 ```
 
+**Population Split - same size** 
+
+Simulate 2 population with sizes 
+```{r, eval=FALSE}
+N_A = 2000
+N_B = 2000
+```
+
+Read in and standardize genotype matrix 
+```{r}
+G <- fread("../data/simple_simulations/G_split_samesize.txt")
+G <- scale(t(G))
+dim(G)
+```
+
+Singular value decompostion of the genotype matrix    
+```{r}
+decomp <- svd(G)
+u <- decomp$u
+v <- decomp$v
+```
+
+Make PCA plot 
+```{r}
+labels = c(rep("A", 500), rep("B", 500))
+qplot(u[,1], u[,2], col = labels)
+```
+
+Plot loading means 
+```{r}
+load_mean <- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xlab("Average Loading") + ylab("PC")
+```
+
+**Population Split - A > B** 
+
+Simulate 2 populations 
+```{r, eval=FALSE}
+N_A = 8000
+N_B = 2000
+```
+
+Read in and standardize genotype matrix 
+```{r}
+G <- fread("../data/simple_simulations/G_split_Abig.txt")
+G <- scale(t(G))
+dim(G)
+```
+
+Singular value decompostion of the genotype matrix    
+```{r}
+decomp <- svd(G)
+u <- decomp$u
+v <- decomp$v
+```
+
+Make PCA plot 
+```{r}
+labels = c(rep("A", 500), rep("B", 500))
+qplot(u[,1], u[,2], col = labels)
+```
+
+Plot loading means 
+```{r}
+load_mean <- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xlab("Average Loading") + ylab("PC")
+```
+
+
+**Population Split - B > A** 
+
+Simulate 2 populations 
+```{r, eval=FALSE}
+N_A = 2000
+N_B = 8000
+```
+
+Read in and standardize genotype matrix 
+```{r}
+G <- fread("../data/simple_simulations/G_split_Bbig.txt")
+G <- scale(t(G))
+dim(G)
+```
+
+Singular value decompostion of the genotype matrix    
+```{r}
+decomp <- svd(G)
+u <- decomp$u
+v <- decomp$v
+```
+
+Make PCA plot 
+```{r}
+labels = c(rep("A", 500), rep("B", 500))
+qplot(u[,1], u[,2], col = labels)
+```
+
+
+Plot loading means 
+```{r}
+load_mean <- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xlab("Average Loading") + ylab("PC")
+```
+
+
+**OOA YRI and CEU**  
+Read in and standardize genotype matrix 
+```{r}
+G <- fread("../data/simple_simulations/G_small_1.txt")
+G <- scale(t(G))
+dim(G)
+```
+
+Singular value decompostion of the genotype matrix    
+```{r}
+decomp <- svd(G)
+u <- decomp$u
+v <- decomp$v
+```
+
+Make PCA plot 
+```{r}
+labels = c(rep("YRI", 1000), rep("CEU", 1000))
+qplot(u[,1], u[,2], col = labels)
+```
+
+Plot loading means 
+```{r}
+load_mean <- colMeans(v)
+qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xlab("Average Loading") + ylab("PC")
+```
 
 
