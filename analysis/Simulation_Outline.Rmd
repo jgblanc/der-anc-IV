@@ -99,7 +99,7 @@ qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xl
 
 **Population Split - same size** 
 
-Simulate 2 population with sizes 
+Simulate 2 population with same sizes 
 ```{r, eval=FALSE}
 N_A = 2000
 N_B = 2000
@@ -107,7 +107,7 @@ N_B = 2000
 
 Read in and standardize genotype matrix 
 ```{r}
-G <- fread("../data/simple_simulations/G_split_samesize.txt")
+G <- fread("../data/simple_simulations/G_split_same.txt")
 G <- scale(t(G))
 dim(G)
 ```
@@ -228,5 +228,6 @@ Plot loading means
 load_mean <- colMeans(v)
 qplot(load_mean[1:20], seq(1,20)) + geom_vline(xintercept = 0, col = "red") + xlab("Average Loading") + ylab("PC")
 ```
+
 
 
