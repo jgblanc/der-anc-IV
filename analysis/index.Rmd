@@ -11,3 +11,4 @@ editor_options:
 Welcome to my research website.
 
 Outline [link](Simulation_Outline.html)
+Plotting 1000 Genomes Gamma [link](plot_1000G_gamma.html)
