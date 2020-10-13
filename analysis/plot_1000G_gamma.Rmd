@@ -1,0 +1,64 @@
+---
+title: "Plot_100G_gamma"
+author: "Jennifer Blanc"
+date: "10/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(latex2exp)
+library(data.table)
+library(ggpubr)
+```
+
+```{r}
+vecs <- fread("../data/1000G_gamma/ALL_0.01.eigenvec")
+pop_info <- fread("../data/20130606_sample_info.txt")
+
+cols <- c("red4","gold2","forestgreen", "dodgerblue4", "olivedrab3")
+dat <- inner_join(vecs, pop_info, by = c("V2"= "Sample"))
+dat <- dat %>% select(V3,V4,Population) %>% mutate(Superpop = case_when(
+  Population %in% c("CHB","JPT","CHS","KHV","CDX")  ~ "EAS",
+  Population %in% c("CEU","TSI","FIN","GBR","IBS")  ~ "EUR",
+  Population %in% c("YRI","LWK","GWD","MSL","ESN", "ASW","ACB")  ~ "AFR",
+  Population %in% c("MXL","PUR","CLM","PEL")  ~ "AMR",
+  Population %in% c("GIH","PJL","BEB","STU","ITU")  ~ "SAS"))
+pl1 <- ggplot(data = dat, aes(x=V3, y=V4, color = Superpop)) + geom_point() + xlab("PC 1") + ylab("PC 2") + scale_color_manual(values = cols, name = "Super Population Code") + theme_classic()  + theme(axis.title= element_text(size = 16, face="bold"), axis.text = element_text(size = 14), legend.position = "bottom", legend.text = element_text(siz = 14), legend.title = element_text(size = 14))+ guides(colour = guide_legend(override.aes = list(size=4)))
+pl1
+```
+
+```{r}
+df <- fread("../data/1000G_gamma/ALL_0.01.50_5_0.5_gamma.txt")
+df <- as.data.frame(df)
+df$PC <- seq(1,20)
+
+# Make plot 
+pl2 <- ggplot(df, aes(x=Regression,y=PC)) + geom_point(size = 3, color = "dodgerblue4") + geom_vline(xintercept = 0, color = "gold2") + ylab("PC") + scale_y_continuous(minor_breaks = seq(1 , 20, 1), breaks = seq(1, 20)) + xlab(TeX('$\\hat{\\gamma}_{s|D}$')) + geom_errorbarh(aes(xmin = Lower, xmax = Upper))+ theme_bw()+ theme(axis.title.y= element_text(size = 16, face="bold"), axis.text = element_text(size = 14), axis.title.x= element_text(size = 20, face="bold")) + theme(panel.grid.minor.x=element_blank(),panel.grid.major.x=element_blank()) 
+pl2
+```
+
+```{r}
+figure <- ggarrange(pl1,pl2, ncol = 2, nrow = 1, labels = c("A", "B"))
+figure
+#ggsave("~/Desktop/gamma_1.png", figure, width = 14.5, height = 6)
+```
+
+```{r}
+A <- fread("../data/record_sims/Abig1_beta_stratA.txt")
+A$pop <- rep("A", 100)
+B <- fread("../data/record_sims/Abig1_beta_stratB.txt")
+B$pop <- rep("B", 100)
+same <- fread("../data/record_sims/Abig1_beta_nostrat.txt")
+same$pop <- rep("N", 100)
+df <- rbind(A, B, same)
+
+pl1 <- ggplot(df, aes(x=pop, y = prop_risk, fill = pop)) + geom_boxplot() + scale_fill_manual(values=c("dodgerblue4", "red4", "gold4")) + ylab("Proportion of Trait Increasing Derived Alleles") + xlab("Population Impacted by a Trait \n Increasing Environmental Variable") + theme_classic()+ theme(legend.position = "none", axis.title = element_text(size = 14), axis.title.y = element_text(size =14), axis.text.x = element_text(size = 12), axis.text = element_text(size = 12)) + ylim(0.25, 0.75) + theme(axis.title.x = element_text(size = 20, face = "bold"), axis.title.y = element_text(size = 20, face = "bold"), axis.text.x = element_text(size = 16),  axis.text.y = element_text(size = 20)) 
+pl1
+
+#ggsave("~/Desktop/boxplot_A.png", pl1, height = 7, width = 7)
+```
+
+
+
